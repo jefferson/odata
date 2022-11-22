@@ -1,0 +1,9 @@
+GET http://localhost:5100/odata/products?$filter=Name eqg 'Jeff' HTTP/1.1
+
+POST http://localhost:5100/odata/products HTTP/1.1
+Content-Type: application/json
+
+ {
+      "ID": 2,
+      "Name": "Jeff"
+    }

@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgresql_bin:/usr/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+      - ./_script:/files
+      - ./_script/dump.sh:/docker-entrypoint-initdb.d/dump.sh
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: odatadb
+
+volumes:
+  postgresql_bin:
+    external: true
+  postgresql_data:
+    external: true
