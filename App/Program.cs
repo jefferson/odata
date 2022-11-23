@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using App.Models;
+using odata_hello_world.App.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +23,15 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Adding database configurations
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<OdatadbContext>((opts) => {
+    opts.UseNpgsql(connectionString);
+});
+
 var app = builder.Build();
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -46,8 +54,8 @@ app.Run();
 IEdmModel GetEdmModel()
 {
     var odataBuilder = new ODataConventionModelBuilder();
-
-    var products = odataBuilder.EntitySet<Product>("Products");
+    
+    var moviesLink = odataBuilder.EntitySet<MovieLink>(nameof(MovieLink));
 
     return odataBuilder.GetEdmModel();
 }
