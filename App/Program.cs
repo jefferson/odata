@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using App.Models;
 using odata_hello_world.App.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,7 +53,7 @@ app.Run();
 IEdmModel GetEdmModel()
 {
     var odataBuilder = new ODataConventionModelBuilder();
-    
+
     var moviesLink = odataBuilder.EntitySet<MovieLink>(nameof(MovieLink));
 
     return odataBuilder.GetEdmModel();

@@ -2,10 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
-using App.Models;
 using odata_hello_world.App.Models;
 
-namespace App.Controllers;
+namespace odata_hello_world.App.Controllers;
 
 public class MovieLinkController : ODataController
 {
