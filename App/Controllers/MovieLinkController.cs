@@ -15,15 +15,10 @@ public class MovieLinkController : ODataController
         this.dbContext = dbContext;
     }
 
+    [HttpGet]
     [EnableQuery(PageSize = 10)]
     public IQueryable<MovieLink> Get()
     {
         return this.dbContext.MovieLinks;
-    }
-
-    [EnableQuery]
-    public IActionResult Get(string key)
-    {
-        return Ok(this.dbContext.MovieLinks.FirstOrDefault( c => c.Key == key));
     }
 }

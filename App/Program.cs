@@ -4,30 +4,37 @@ using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using odata_hello_world.App.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.OData.Formatter;
+using Microsoft.Net.Http.Headers;
+using odata_hello_world.App.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<OdatadbContext>((opts) =>
+{
+    opts.UseNpgsql(connectionString);
+});
+
 builder.Services
 .AddControllers()
-.AddOData(opt => {
-    
+.AddOData(opt =>
+{
+
     opt.Select().Expand().Filter().OrderBy().SetMaxTop(100).Count();
-    opt.AddRouteComponents("odata", GetEdmModel());
+    opt.AddRouteComponents("api", GetEdmModel());
     opt.RouteOptions.EnableControllerNameCaseInsensitive = true;
+
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-//Adding database configurations
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-builder.Services.AddDbContext<OdatadbContext>((opts) => {
-    opts.UseNpgsql(connectionString);
+builder.Services.AddSwaggerGen(swaggerGenOptions =>
+{
+    swaggerGenOptions.DocumentFilter<ODataCommonDocumentFilter>();
 });
 
 var app = builder.Build();
@@ -40,7 +47,7 @@ if (app.Environment.IsDevelopment())
 }
 
 //Use odata route debug, /$odata
-app.UseODataRouteDebug();
+// app.UseODataRouteDebug();
 
 app.UseHttpsRedirection();
 
