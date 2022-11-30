@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
+using Microsoft.EntityFrameworkCore;
 using odata_hello_world.App.Models;
 
 namespace odata_hello_world.App.Controllers;
@@ -17,7 +18,7 @@ public class MovieLinkController : ODataController
 
     [HttpGet]
     [EnableQuery(PageSize = 10)]
-    public IQueryable<MovieLink> Get()
+    public ActionResult<IQueryable<MovieLink>> Get()
     {
         return this.dbContext.MovieLinks;
     }

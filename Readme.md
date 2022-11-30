@@ -67,3 +67,37 @@ And hey-hdr to create awesome graphics with our test.
 > The Extension to the excellent https://github.com/rakyll/hey load generator.
 
 [More about Hey HDR.](https://github.com/asoorm/hey-hdr)
+
+### Testing : )
+
+Test case: What's the comportament of Api in front of 1000 request/seconds by 30 clients, at the same time?
+
+```cmd
+# -n is Number of requests to run. Default is 200.
+# -c Number of workers to run concurrently.
+
+hey -n 1000 -c 30 http://localhost:5100/api/MovieLink
+```
+## Results before database otimization:
+
+```sql
+SELECT m.movie_id, m.language, m.key, m.source
+      FROM movie_links AS m
+      ORDER BY m.key, m.language, m.movie_id
+```
+![Histogram Before](./metrics/histogram-before.png)
+![Scatter Before](./metrics/odata-before.scatter.png)
+
+## Results after database otimization:
+
+In this case the only modification was change the order of "order by columns" to realize only Index Scan in database. See commits in this path to:
+
+> /App/Models/MovieLink.cs
+
+```sql
+ SELECT m.movie_id, m.language, m.key, m.source
+      FROM movie_links AS m
+      ORDER BY m.movie_id, m.language, m.key
+```
+![Histogram After](./metrics/histogram-after.png)
+![Scatter After](./metrics/odata-after.scatter.png)
