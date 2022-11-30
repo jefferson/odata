@@ -101,3 +101,9 @@ In this case the only modification was change the order of "order by columns" to
 ```
 ![Histogram After](./metrics/histogram-after.png)
 ![Scatter After](./metrics/odata-after.scatter.png)
+
+
+# Envoriment
+
+> Intel(R) Core(TM) i5-3317U Processor CPU @ 1.70GHz, 1701Mhz, 2 Core(s), 4 Logic Processor(s)
+> 16 GB RAM
