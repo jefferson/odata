@@ -85,6 +85,17 @@ SELECT m.movie_id, m.language, m.key, m.source
       FROM movie_links AS m
       ORDER BY m.key, m.language, m.movie_id
 ```
+Below is the log of the query from api:
+
+```cmd
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (128ms) [Parameters=[@__TypedProperty_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT m.movie_id, m.language, m.key, m.source
+      FROM movie_links AS m
+      ORDER BY m.key, m.language, m.movie_id
+      LIMIT @__TypedProperty_0
+```
+
 ![Histogram Before](./metrics/histogram-before.png)
 ![Scatter Before](./metrics/odata-before.scatter.png)
 
@@ -99,11 +110,21 @@ In this case the only modification was change the order of "order by columns" to
       FROM movie_links AS m
       ORDER BY m.movie_id, m.language, m.key
 ```
+Below is the log of the query from api:
+
+```cmd
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@__TypedProperty_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT m.movie_id, m.language, m.key, m.source
+      FROM movie_links AS m
+      ORDER BY m.movie_id, m.language, m.key
+      LIMIT @__TypedProperty_0
+```
 ![Histogram After](./metrics/histogram-after.png)
 ![Scatter After](./metrics/odata-after.scatter.png)
 
 
-# Envoriment
+# Environment
 
 > Intel(R) Core(TM) i5-3317U Processor CPU @ 1.70GHz, 1701Mhz, 2 Core(s), 4 Logic Processor(s)
 > 16 GB RAM
