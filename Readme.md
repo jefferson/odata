@@ -103,7 +103,7 @@ info: Microsoft.EntityFrameworkCore.Database.Command[20101]
 
 In this case the only modification was change the order of "order by columns" to realize only Index Scan in database. See commits in this path to:
 
-> /App/Models/MovieLink.cs
+> [See this file - MovieLink.cs](https://github.com/jefferson/odata/blob/9feb9e0389b64274a73c986d176054382c6b71fb/App/Models/MovieLink.cs#L12)
 
 ```sql
  SELECT m.movie_id, m.language, m.key, m.source
